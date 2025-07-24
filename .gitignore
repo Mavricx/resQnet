@@ -1,0 +1,34 @@
+# dependencies
+/node_modules
+
+# production
+/dist
+
+# local env files
+.env
+.env.*.local
+
+# vite cache
+/.vite
+
+# log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# MacOS
+.DS_Store
+
+# Optional: OS or package manager specific
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
