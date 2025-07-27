@@ -1,12 +1,13 @@
 import "./App.css";
-import EmergencyButton from "./components/EmergencyButton.jsx";
+import { BottomIconBar, TopInfoBar, MainContainer } from "./sections";
 function App() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold flex justify-center items-center bg-grey-100">
-        DAY ONE to ONE DAY
-      </h1>
-      <EmergencyButton />
+    <div className="max-w-xs mx-auto bg-white h-screen border rounded-3xl shadow-lg flex flex-col justify-between">
+      <div>
+        <TopInfoBar />
+        <MainContainer />
+      </div>
+      <BottomIconBar />
     </div>
   );
 }
