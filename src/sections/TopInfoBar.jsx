@@ -1,13 +1,14 @@
-import React from 'react'
-
+import React from "react";
+import CircleTop from "../components/CircleTop";
 function TopInfoBar() {
   return (
     <div className="flex justify-around p-4 ">
-        <div className="border border-gray-300 rounded p-2">Item 1</div>
-        <div className="border border-gray-300 rounded p-2">Item 2</div>
-        <div className="border border-gray-300 rounded p-2">Item 3</div>
+      <CircleTop />
+      <CircleTop />
+      <CircleTop />
+      <CircleTop />
     </div>
-  )
+  );
 }
 
 export default TopInfoBar;
