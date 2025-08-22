@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 
 function BottomIconBar() {
   return ( 
-      <nav className="fixed bottom-0 left-0 right-0 shadow-md flex justify-around items-center h-16 rounded-t-xl shadow-md bg-white">
+      <nav className="fixed bottom-0 left-0 right-0 shadow-md flex justify-around items-center h-16 rounded-t-xl bg-white">
         <Link to="/" className="text-4xl">
           <IoMdHome />
         </Link>
