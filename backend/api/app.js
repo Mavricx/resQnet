@@ -9,6 +9,8 @@ app.get("/help", (_, res) => {
     res.send("sending help")
 })
 
+app.post
+
 connectDB().then(() => {
     // eslint-disable-next-line no-undef
     const port = process.env.PORT || 3000
