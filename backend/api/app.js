@@ -2,11 +2,14 @@ import dotenv from "dotenv"
 dotenv.config({ path: "../../.env" })
 import connectDB from "../utils/db.js";
 import express from 'express'
-
+import cors from 'cors';
 const app = express()
 
+app.use(express.json())
+app.use(cors());
+
 app.get("/help", (_, res) => {
-    res.send("sending help")
+    res.json({status:"success"})
 })
 
 app.post

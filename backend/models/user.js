@@ -3,6 +3,12 @@ import mongoose from "mongoose";
 import { TbNumber0Small } from "react-icons/tb";
 const Schema = mongoose.Schema;
 
+const deviceTokenSchema=new mongoose.Schema({
+    token:String,
+    platform:String,
+    updatedAt:{type:Date,default:Date.now}
+});
+
 const userSchema = new Schema({
     email: {
         type: String,
@@ -57,9 +63,6 @@ const userSchema = new Schema({
 
 userSchema.index({location:"2dsphere"});
 
-const deviceTokenSchema=new mongoose.Schema({
-    token:String,
-    platform:String,
-    updatedAt:{type:Date,default:Date.now}
-});
 
+
+export default mongoose.model("User",userSchema);
