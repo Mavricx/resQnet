@@ -1,14 +1,17 @@
 import "./App.css";
 import { BottomIconBar } from "./sections";
-import { Home, Map, Profile, Settings } from "./pages";
+import { Home, Map, Profile, Settings, SignUp,Landing,Login } from "./pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <>
       <Router>
         <Routes>
+          <Route path="/" element={<Landing/>}></Route>
+          <Route path="/login" element={<Login/>}></Route>
+          <Route path="/signup" element={<SignUp/>}></Route>
           <Route
-            path="/"
+            path="/home"
             element={
               <>
                 <Home /> <BottomIconBar />
@@ -39,7 +42,8 @@ function App() {
               </>
             }
           ></Route>
-        </Routes>
+          
+        </Routes>``
       </Router>
     </>
   );
