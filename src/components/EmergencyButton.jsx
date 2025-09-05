@@ -1,10 +1,36 @@
 import React from "react";
 import styled from "styled-components";
 
-const Button = () => {
+const EmergencyButton = () => {
+  const sendLocation=()=>{
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(
+        (position)=>{
+          const lat=position.coords.latitude;
+          const lng=position.coords.longitude;
+
+          fetch("http://localhost:5050/location",{
+            method:"POST",
+            headers:{
+              "Content-Type":"application/json"
+            },
+            body:JSON.stringify({lat,lng}),
+          })
+          .then((res)=>res.json())
+          .then((data)=>{
+            console.log("Location sent to backend",lat,lng)
+          })
+          .catch((err)=>console.log("error",err))
+        }
+      )
+    }
+    else{
+      alert("Geolocation is not supported by this browser.")
+    }
+  }
   return (
     <StyledWrapper>
-      <button className="animated-button">
+      <button className="animated-button" onClick={sendLocation}>
         <svg
           viewBox="0 0 24 24"
           className="arr-2"
@@ -116,4 +142,4 @@ const StyledWrapper = styled.div`
   }
 `;
 
-export default Button;
+export default EmergencyButton;

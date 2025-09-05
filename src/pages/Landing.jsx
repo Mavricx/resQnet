@@ -12,7 +12,7 @@ function Landing() {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="flex flex-col items-center mt-6"
+        className="flex flex-col items-center space-y-2 mt-8"
       >
         <ShieldCheck size={64} className="mb-3 drop-shadow-lg" />
         <h1 className="text-3xl font-bold">ResQnet</h1>

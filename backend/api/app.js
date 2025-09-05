@@ -14,6 +14,11 @@ app.use(cors());
 app.get("/help", (_, res) => {
     res.json({ status: "success" })
 })
+app.post("/location", (req, res) => {
+    const { lng, lat } = req.body;
+    console.log(lat,lng);
+    res.json({lat,lng});
+})
 
 app.use("/user", userRoutes)
 
