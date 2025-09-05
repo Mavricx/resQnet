@@ -43,7 +43,7 @@ function App() {
             }
           ></Route>
           
-        </Routes>``
+        </Routes>
       </Router>
     </>
   );

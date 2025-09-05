@@ -7,6 +7,9 @@ const app = express()
 import User from "../models/user.js";
 import Alert from "../models/alert.js";
 import userRoutes from "../routes/userRoutes.js"
+// import getNearbyUsers from "../utils/queryNearby.js";
+
+let lastLocation = null;;
 
 app.use(express.json())
 app.use(cors());
@@ -14,10 +17,21 @@ app.use(cors());
 app.get("/help", (_, res) => {
     res.json({ status: "success" })
 })
-app.post("/location", (req, res) => {
+app.post("/postLocation", async (req, res) => {//get the location from the frontend
     const { lng, lat } = req.body;
-    console.log(lat,lng);
-    res.json({lat,lng});
+    console.log(lat, lng);
+    lastLocation = { lng:lng, lat: lat };
+    // const nearby= await getNearbyUsers(lng,lat)
+    res.json("location stored temporarily")
+})
+app.get("/getNearbyUsers", (req, res) => {
+    if (!lastLocation) {
+        return res.json({ nearby: [], message: "No location found yet" })
+    }
+
+    res.json({
+        location: lastLocation,
+    })
 })
 
 app.use("/user", userRoutes)

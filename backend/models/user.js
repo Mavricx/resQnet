@@ -22,11 +22,6 @@ const userSchema = new Schema({
         type: String,
         enum: ["Normal Citizen", "Police Authority", "System Admin"]
     },
-    username: {
-        type: String,
-        required: true,
-        unique: true
-    },
     address: {
         country: {
             type: String,
@@ -49,10 +44,11 @@ const userSchema = new Schema({
         type:Number,
         required:true
     },
-    profilePicture:{
+     gender:{
         type:String,
+        enum:["Male","Female","Other"],
         required:true
-    },
+     },
     deviceToken:[deviceTokenSchema],
     
     location:{

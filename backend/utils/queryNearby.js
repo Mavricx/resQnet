@@ -3,9 +3,9 @@
 import connectDB from "./db.js";
 import User from "../models/user.js";
 
-async function run() {
+async function getNearbyUsers(lng,lat) {
     await connectDB();
-    const lng = -118.237560,  lat = 34.047113;
+    // const lng = -118.237560,  lat = 34.047113;
     const nearby = await User.find({
         location: {
             $near: {
@@ -17,9 +17,9 @@ async function run() {
             }
         }
     });
-    console.log("nearby user count:", nearby.length);
-    console.log(nearby);
-
+    return nearby;
 }
 
-run().catch(e => { console.error(e); })
+// getNearbyUsers().catch(e => { console.error(e); })
+
+export default getNearbyUsers;

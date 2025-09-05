@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import {useNavigate} from "react-router-dom"
 
 const EmergencyButton = () => {
+  const navigate = useNavigate();
+ 
   const sendLocation=()=>{
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(
@@ -9,7 +12,7 @@ const EmergencyButton = () => {
           const lat=position.coords.latitude;
           const lng=position.coords.longitude;
 
-          fetch("http://localhost:5050/location",{
+          fetch("http://localhost:5050/postLocation",{//send the location to backend
             method:"POST",
             headers:{
               "Content-Type":"application/json"
@@ -17,8 +20,9 @@ const EmergencyButton = () => {
             body:JSON.stringify({lat,lng}),
           })
           .then((res)=>res.json())
-          .then((data)=>{
+          .then(()=>{
             console.log("Location sent to backend",lat,lng)
+            navigate("/map");
           })
           .catch((err)=>console.log("error",err))
         }

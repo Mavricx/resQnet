@@ -1,9 +1,17 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { User, Mail, Phone, MapPin, Camera, UserCircle, Hash } from "lucide-react";
+import {
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  Camera,
+  UserCircle,
+  Hash,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 export default function SignupPage() {
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     name: "",
@@ -76,21 +84,20 @@ export default function SignupPage() {
               required
             />
           </div>
-
-          {/* Username */}
+           {/* Profile Picture */}
           <div className="flex items-center bg-white/20 rounded-xl px-4 py-3">
             <UserCircle size={18} className="text-white/80 mr-3" />
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
+            <select
+              name="gender"
               className="bg-transparent w-full text-white placeholder-white/60 focus:outline-none"
-              value={formData.username}
+              value={formData.gender}
               onChange={handleChange}
-              required
-            />
+            >
+              <option className="text-black" value="Male">Male</option>
+              <option className="text-black" value="Female">Female</option>
+              <option className="text-black" value="Other">Other</option>
+            </select>
           </div>
-
           {/* User Type */}
           <div className="bg-white/20 rounded-xl px-4 py-3">
             <select
@@ -173,19 +180,6 @@ export default function SignupPage() {
               required
             />
           </div>
-
-          {/* Profile Picture */}
-          <div className="flex items-center bg-white/20 rounded-xl px-4 py-3">
-            <Camera size={18} className="text-white/80 mr-3" />
-            <input
-              type="file"
-              name="profilePicture"
-              className="text-white text-sm"
-              onChange={handleChange}
-              required
-            />
-          </div>
-
           {/* Submit */}
           <motion.button
             whileTap={{ scale: 0.95 }}

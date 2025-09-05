@@ -23,7 +23,7 @@ async function run() {
             platform: "web",
             updatedAt: Date.now()
         }],
-        location: { type: "Point", coordinates: [ -118.2437, 34.0522 ] }
+        location: { type: "Point", coordinates: [ 20.245984848495482, 85.80163387350837 ] }
     })
     console.log("Test User Created:", user._id);
 }
