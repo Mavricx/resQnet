@@ -1,5 +1,5 @@
 import React from "react";
-import CircleTop from "../../components/CircleTop";
+import CircleTop from "../components/CircleTop";
 function TopInfoBar() {
   return (
     <div className="flex space-x-4 overflow-x-auto p-3 border-b border-gray-200 bg-white scrollbar-hide mt-7">

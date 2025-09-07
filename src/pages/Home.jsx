@@ -5,7 +5,7 @@ function Home() {
   return (
     
       <div>
-        <TopInfoBar />
+        {/* <TopInfoBar /> */}
         <MainContainer />
       </div>
     

@@ -1,5 +1,5 @@
 import BottomIconBar from "./BottomIconBar";
-import TopInfoBar from "./HomeComponents/TopInfoBar";
-import MainContainer from "./HomeComponents/MainContainer";
+import TopInfoBar from "./TopInfoBar";
+import MainContainer from "./MainContainer";
 
 export { BottomIconBar, TopInfoBar, MainContainer };

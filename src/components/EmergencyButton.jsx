@@ -1,10 +1,11 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {useNavigate} from "react-router-dom"
 
 const EmergencyButton = () => {
-  const navigate = useNavigate();
- 
+  const [isExpanded, setIsExpanded] = useState(false);
+   const navigate = useNavigate();
+
   const sendLocation=()=>{
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(
@@ -32,118 +33,151 @@ const EmergencyButton = () => {
       alert("Geolocation is not supported by this browser.")
     }
   }
+
+  const subButtons = [
+    { label: 'Health', angle: 0 },
+    { label: 'Theft', angle: 90 },
+    { label: 'Fire', angle: 180 },
+    { label: 'Assault', angle: 270 }
+  ];
+
+  const radius = 120; // Distance from center to sub-buttons
+
+  const calculatePosition = (angle) => {
+    const radian = (angle * Math.PI) / 180;
+    return {
+      x: Math.cos(radian) * radius,
+      y: Math.sin(radian) * radius
+    };
+  };
+
+  const handleSubButtonClick = (label) => {
+    console.log(`${label} button clicked`);
+    sendLocation();
+  };
+
   return (
-    <StyledWrapper>
-      <button className="animated-button" onClick={sendLocation}>
-        <svg
-          viewBox="0 0 24 24"
-          className="arr-2"
-          xmlns="http://www.w3.org/2000/svg"
+    <div className="w-full h-[80vh] 
+                flex items-center justify-center relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-5 w-full h-full"></div>
+
+      {/* Main container */}
+      <div className="relative">
+        {/* Sub-buttons */}
+        <AnimatePresence>
+          {isExpanded && subButtons.map((button, index) => {
+            const position = calculatePosition(button.angle);
+            return (
+              <motion.button
+                key={button.label}
+                initial={{ 
+                  scale: 0,
+                  x: 0,
+                  y: 0,
+                  opacity: 0
+                }}
+                animate={{ 
+                  scale: 1,
+                  x: position.x,
+                  y: position.y,
+                  opacity: 1
+                }}
+                exit={{ 
+                  scale: 0,
+                  x: 0,
+                  y: 0,
+                  opacity: 0
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 25,
+                  delay: index * 0.1
+                }}
+                whileHover={{ 
+                  scale: 1.1,
+                  boxShadow: "0 10px 30px rgba(34, 197, 94, 0.3)"
+                }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleSubButtonClick(button.label)}
+                className="absolute w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 
+           text-white rounded-full shadow-lg hover:shadow-xl
+           flex items-center justify-center text-sm font-semibold
+           border-2 border-white backdrop-blur-sm
+           transition-all duration-200 ease-out
+           hover:from-green-400 hover:to-green-500"
+              >
+                {button.label}
+              </motion.button>
+            );
+          })}
+        </AnimatePresence>
+
+        {/* Main Help button */}
+        <motion.button
+          onClick={() => { setIsExpanded(!isExpanded) }}
+          whileHover={{
+            scale: 1.05,
+            boxShadow: "0 15px 40px rgba(34, 197, 94, 0.4)"
+          }}
+          whileTap={{ scale: 0.95 }}
+          animate={{
+            rotate: isExpanded ? 45 : 0
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 200,
+            damping: 20
+          }}
+          className="relative w-20 h-20 bg-gradient-to-r from-green-500 to-green-600 
+                   text-white rounded-full shadow-xl hover:shadow-2xl
+                   flex items-center justify-center text-lg font-bold
+                   border-4 border-white backdrop-blur-sm
+                   transition-all duration-300 ease-out
+                   hover:from-green-400 hover:to-green-500
+                   focus:outline-none focus:ring-4 focus:ring-green-300 focus:ring-opacity-50"
         >
-          <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
-        </svg>
-        <span className="text">Get Help</span>
-        <span className="circle" />
-        <svg
-          viewBox="0 0 24 24"
-          className="arr-1"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
-        </svg>
-      </button>
-    </StyledWrapper>
+          <motion.span
+            animate={{ rotate: isExpanded ? -45 : 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+          >
+            {isExpanded ? '×' : 'Help'}
+          </motion.span>
+        </motion.button>
+
+
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ scale: 0, opacity: 0.8 }}
+              animate={{ scale: 3, opacity: 0 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="absolute inset-0 w-20 h-20 bg-green-400 rounded-full pointer-events-none"
+            />
+          )}
+        </AnimatePresence>
+      </div>
+
+      
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.8 }}
+        className="absolute bottom-6 left-0 right-0 text-center text-gray-600 px-4 mb-25"
+      >
+        <p className="text-xs text-white mb-3 leading-relaxed">
+          {isExpanded ? 'Tap a category for help' : 'Tap Help to see options'}
+        </p>
+        <div className="flex justify-center space-x-1.5">
+          <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+          <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse delay-100"></div>
+          <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse delay-200"></div>
+        </div>
+      </motion.div>
+    </div>
   );
 };
-
-const StyledWrapper = styled.div`
-  .animated-button {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 16px 36px;
-    border: 4px solid;
-    border-color: transparent;
-    font-size: 16px;
-    background-color: inherit;
-    border-radius: 100px;
-    font-weight: 600;
-    color: greenyellow;
-    box-shadow: 0 0 0 2px greenyellow;
-    cursor: pointer;
-    overflow: hidden;
-    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .animated-button svg {
-    position: absolute;
-    width: 24px;
-    fill: greenyellow;
-    z-index: 9;
-    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .animated-button .arr-1 {
-    right: 16px;
-  }
-
-  .animated-button .arr-2 {
-    left: -25%;
-  }
-
-  .animated-button .circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
-    background-color: greenyellow;
-    border-radius: 50%;
-    opacity: 0;
-    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .animated-button .text {
-    position: relative;
-    z-index: 1;
-    transform: translateX(-12px);
-    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .animated-button:hover {
-    box-shadow: 0 0 0 12px transparent;
-    color: #212121;
-    border-radius: 12px;
-  }
-
-  .animated-button:hover .arr-1 {
-    right: -25%;
-  }
-
-  .animated-button:hover .arr-2 {
-    left: 16px;
-  }
-
-  .animated-button:hover .text {
-    transform: translateX(12px);
-  }
-
-  .animated-button:hover svg {
-    fill: #212121;
-  }
-
-  .animated-button:active {
-    scale: 0.95;
-    box-shadow: 0 0 0 4px greenyellow;
-  }
-
-  .animated-button:hover .circle {
-    width: 220px;
-    height: 220px;
-    opacity: 1;
-  }
-`;
 
 export default EmergencyButton;

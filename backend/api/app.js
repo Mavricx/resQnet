@@ -28,7 +28,7 @@ app.get("/getNearbyUsers", (req, res) => {
     if (!lastLocation) {
         return res.json({ nearby: [], message: "No location found yet" })
     }
-
+    console.log("Returning last known location:", lastLocation);
     res.json({
         location: lastLocation,
     })
