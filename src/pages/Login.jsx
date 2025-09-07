@@ -66,7 +66,7 @@ function Login() {
               className="bg-transparent w-full text-white placeholder-white/60 focus:outline-none"
               value={formData.email}
               onChange={handleChange}
-              required
+              // required
             />
           </div>
 
@@ -80,7 +80,7 @@ function Login() {
               className="bg-transparent w-full text-white placeholder-white/60 focus:outline-none"
               value={formData.password}
               onChange={handleChange}
-              required
+              // required
             />
           </div>
 
@@ -89,6 +89,7 @@ function Login() {
             whileTap={{ scale: 0.95 }}
             type="submit"
             className="w-full bg-white text-indigo-600 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg hover:bg-gray-100 transition"
+            onClick={()=>{navigate('/home')}}
           >
             <LogIn size={18} /> Login
           </motion.button>
@@ -106,7 +107,7 @@ function Login() {
             </button>
           </p>
           <p className="mt-2">
-            <button className="font-semibold text-white/80 hover:text-gray-200">
+            <button className="font-semibold text-white/80 hover:text-gray-200" onClick={()=>{navigate('/home')}}>
               Forgot Password?
             </button>
           </p>
