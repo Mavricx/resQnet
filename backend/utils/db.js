@@ -1,6 +1,6 @@
 //function to connect to the mongodb db.
 import dotenv from "dotenv"
-dotenv.config({ path: "../../.env" })
+dotenv.config({ path: "./.env" })
 import mongoose from 'mongoose';
 const connectDB = async () => {
     // eslint-disable-next-line no-undef
