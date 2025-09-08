@@ -1,6 +1,5 @@
 //schema for users
 import mongoose from "mongoose";
-import { TbNumber0Small } from "react-icons/tb";
 const Schema = mongoose.Schema;
 
 const deviceTokenSchema=new mongoose.Schema({
