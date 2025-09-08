@@ -12,7 +12,8 @@ import userRoutes from "../routes/userRoutes.js"
 let lastLocation = null;;
 
 app.use(express.json())
-// connectDB();
+app.use(cors());
+
 
 app.get("/help", (_, res) => {
     res.json({ status: "success" })
