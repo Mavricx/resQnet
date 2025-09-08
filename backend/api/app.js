@@ -12,7 +12,7 @@ import userRoutes from "../routes/userRoutes.js"
 let lastLocation = null;;
 
 app.use(express.json())
-connectDB();
+// connectDB();
 
 app.get("/help", (_, res) => {
     res.json({ status: "success" })
@@ -36,13 +36,12 @@ app.get("/getNearbyUsers", (req, res) => {
 
 app.use("/user", userRoutes)
 
-// connectDB().then(() => {
-//     // eslint-disable-next-line no-undef
-//     const port = process.env.PORT || 3000
-//     app.listen(port, () => {
-//         console.log(`Server started on port:${port}`)
-//     })
-// })
+connectDB().then(() => {
+    // eslint-disable-next-line no-undef
+    const port = process.env.PORT || 3000
+    app.listen(port, () => {
+        console.log(`Server started on port:${port}`)
+    })
+})
 
-export default app;
 
