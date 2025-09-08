@@ -13,7 +13,7 @@ const EmergencyButton = () => {
           const lat=position.coords.latitude;
           const lng=position.coords.longitude;
 
-          fetch("http://localhost:5050/postLocation",{//send the location to backend
+          fetch( import.meta.env.VITE_BACKEND_URL+"/postLocation",{//send the location to backend
             method:"POST",
             headers:{
               "Content-Type":"application/json"
