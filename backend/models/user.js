@@ -50,9 +50,16 @@ const userSchema = new Schema({
      },
     deviceToken:[deviceTokenSchema],
     
-    location:{
-        type:{type:String,default:"Point"},
-        coordinates:{ type:[Number],default:[0,0]}
+    lastLocation:{
+        type: {
+            type: String,
+            enum: ["Point"],
+            default: "Point"
+        },
+        coordinates: {
+            type: [Number],
+            default: [0, 0]
+        }
     }
 })
 

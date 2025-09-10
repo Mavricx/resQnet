@@ -10,20 +10,29 @@ import {
   Hash,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { sendSignInLinkToEmail } from "firebase/auth";
+import auth from "./firebase.js";
+
+const actionCodeSettings = {
+  url: "https://localhost:5173/finishSignIn", //TODO: change this after deploying the frontend
+  handleCodeInApp: true, //means we are handling the code in the app not in firebase
+};
+
 export default function SignupPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: "",
-    name: "",
-    userType: "Normal Citizen",
-    username: "",
-    country: "",
-    state: "",
-    city: "",
-    zipcode: "",
-    phoneNo: "",
-    profilePicture: "",
-  });
+  email: "",
+  name: "",
+  userType: "Normal Citizen",
+  address: null,
+  gender: "Male",
+  phoneNo: "",
+  lastLocation: { type: "Point", coordinates: [0, 0] },
+  country: "",
+  state: "",
+  city: "",
+  zipcode: "",
+});
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -33,10 +42,15 @@ export default function SignupPage() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted: ", formData);
-    // send data to backend API
+    try {
+      await sendSignInLinkToEmail(auth, formData.email, actionCodeSettings); //send the sign in link to the email
+      window.localStorage.setItem("emailForSignIn", formData.email); //store the email in local storage to retrieve it later
+      alert("Sign in link sent to your email. Please check your inbox.");
+    } catch (e) {
+      alert(e.message);
+    }
   };
 
   return (
@@ -84,7 +98,7 @@ export default function SignupPage() {
               required
             />
           </div>
-           {/* Profile Picture */}
+          {/* Profile Picture */}
           <div className="flex items-center bg-white/20 rounded-xl px-4 py-3">
             <UserCircle size={18} className="text-white/80 mr-3" />
             <select
@@ -93,9 +107,15 @@ export default function SignupPage() {
               value={formData.gender}
               onChange={handleChange}
             >
-              <option className="text-black" value="Male">Male</option>
-              <option className="text-black" value="Female">Female</option>
-              <option className="text-black" value="Other">Other</option>
+              <option className="text-black" value="Male">
+                Male
+              </option>
+              <option className="text-black" value="Female">
+                Female
+              </option>
+              <option className="text-black" value="Other">
+                Other
+              </option>
             </select>
           </div>
           {/* User Type */}

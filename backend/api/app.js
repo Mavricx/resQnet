@@ -6,7 +6,7 @@ import cors from 'cors';
 const app = express()
 import User from "../models/user.js";
 import Alert from "../models/alert.js";
-import userRoutes from "../routes/userRoutes.js"
+import userRouter from "../routes/user.js"
 // import getNearbyUsers from "../utils/queryNearby.js";
 
 let lastLocation = null;;
@@ -18,6 +18,8 @@ app.use(cors());
 app.get("/help", (_, res) => {
     res.json({ status: "success" })
 })
+
+app.use('/',userRouter);
 app.post("/postLocation", async (req, res) => {//get the location from the frontend
     const { lng, lat } = req.body;
     console.log(lat, lng);
@@ -25,6 +27,8 @@ app.post("/postLocation", async (req, res) => {//get the location from the front
     // const nearby= await getNearbyUsers(lng,lat)
     res.json("location stored temporarily")
 })
+
+
 app.get("/getNearbyUsers", (req, res) => {
     if (!lastLocation) {
         return res.json({ nearby: [], message: "No location found yet" })
@@ -35,7 +39,7 @@ app.get("/getNearbyUsers", (req, res) => {
     })
 })
 
-app.use("/user", userRoutes)
+app.use("/user", userRouter)
 
 connectDB().then(() => {
     // eslint-disable-next-line no-undef
