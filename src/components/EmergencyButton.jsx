@@ -41,7 +41,7 @@ const EmergencyButton = () => {
     { label: 'Assault', angle: 270 }
   ];
 
-  const radius = 100; // Distance from center to sub-buttons
+  const radius = 125; // Distance from center to sub-buttons
 
   const calculatePosition = (angle) => {
     const radian = (angle * Math.PI) / 180;
