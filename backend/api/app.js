@@ -4,9 +4,10 @@ import connectDB from "../utils/db.js";
 import express from 'express'
 import cors from 'cors';
 const app = express()
-import User from "../models/user.js";
-import Alert from "../models/alert.js";
+// import User from "../models/user.js";
+// import Alert from "../models/alert.js";
 import userRouter from "../routes/user.js"
+import alertRouter from "../routes/alert.js"
 // import getNearbyUsers from "../utils/queryNearby.js";
 
 let lastLocation = null;;
@@ -19,7 +20,7 @@ app.get("/help", (_, res) => {
     res.json({ status: "success" })
 })
 
-app.use('/',userRouter);
+
 app.post("/postLocation", async (req, res) => {//get the location from the frontend
     const { lng, lat } = req.body;
     console.log(lat, lng);
@@ -40,6 +41,7 @@ app.get("/getNearbyUsers", (req, res) => {
 })
 
 app.use("/user", userRouter)
+app.use("/alert",alertRouter);
 
 connectDB().then(() => {
     // eslint-disable-next-line no-undef

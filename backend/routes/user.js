@@ -3,5 +3,5 @@ const router = express.Router();
 import User from "../models/user.js";
 import wrapAsync from "../utils/wrapAsync.js";
 
-router.route
+
 export default router;
