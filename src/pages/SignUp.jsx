@@ -10,13 +10,13 @@ import {
   Hash,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { sendSignInLinkToEmail } from "firebase/auth";
-import auth from "./firebase.js";
+// import { sendSignInLinkToEmail } from "firebase/auth";
+// import auth from "./firebase.js";
 
-const actionCodeSettings = {
-  url: "https://localhost:5173/finishSignIn", //TODO: change this after deploying the frontend
-  handleCodeInApp: true, //means we are handling the code in the app not in firebase
-};
+// const actionCodeSettings = {
+//   url: "https://localhost:5173/finishSignIn", //TODO: change this after deploying the frontend
+//   handleCodeInApp: true, //means we are handling the code in the app not in firebase
+// };
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -43,14 +43,15 @@ export default function SignupPage() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await sendSignInLinkToEmail(auth, formData.email, actionCodeSettings); //send the sign in link to the email
-      window.localStorage.setItem("emailForSignIn", formData.email); //store the email in local storage to retrieve it later
-      alert("Sign in link sent to your email. Please check your inbox.");
-    } catch (e) {
-      alert(e.message);
-    }
+    // e.preventDefault();
+    // try {
+    //   await sendSignInLinkToEmail(auth, formData.email, actionCodeSettings); //send the sign in link to the email
+    //   window.localStorage.setItem("emailForSignIn", formData.email); //store the email in local storage to retrieve it later
+    //   alert("Sign in link sent to your email. Please check your inbox.");
+    // } catch (e) {
+    //   alert(e.message);
+    // }
+  
   };
 
   return (

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { signInWithEmailLink } from "firebase/auth";
-import auth from "./firebase.js";
-import { h1 } from "framer-motion/client";
+import auth from "../pages/firebase.js";
+//import { h1 } from "framer-motion/client";
 
 function FinishSignIn() {
   useEffect(() => {

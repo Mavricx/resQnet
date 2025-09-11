@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { set } from "mongoose";
+// import { set } from "mongoose";
 
 function Map() {
   const mapboxAccessToken = import.meta.env.VITE_MAPBOX_TOKEN;
@@ -10,11 +10,11 @@ function Map() {
   let lng = 85.8245;
 
   const getPosition = () => {
-    fetch("http://localhost:5050/getNearbyUsers")
-      .then((res) => res.json())
-      .then((data) => {
-        setLocation(data.location);
-      });
+    // fetch("http://localhost:5050/getNearbyUsers")
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setLocation(data.location);
+    //   });
   };
 
   useEffect(() => {
