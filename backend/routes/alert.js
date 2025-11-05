@@ -1,7 +1,7 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import * as alertController from "../controllers/alert.js"
-import wrapAsync from "../utils/wrapAsync.js"
+const alertController = require('../controllers/alert.js');
+const wrapAsync = require('../utils/wrapAsync.js');
 
 
 router.route('/:id')
@@ -11,4 +11,4 @@ router.route('/')
 .get(alertController.getAllAlerts)//get all alerts
 .post(wrapAsync(alertController.createAlert))//create alert
 
-export default router;
+module.exports = router;

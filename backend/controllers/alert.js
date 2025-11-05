@@ -1,6 +1,6 @@
-import Alert from "../models/alert.js"
+const Alert = require('../models/alert.js');
 
-export async function getAlert(req, res) {
+module.exports.getAlert = async function getAlert(req, res) {
     try {
 
         const { id } = req.params;
@@ -25,7 +25,7 @@ export async function getAlert(req, res) {
     }
 }
 
-export async function getAllAlerts(req,res){
+module.exports.getAllAlerts = async function getAllAlerts(req,res){
     try{
         if(req.user){
             const nearbyAlerts=null;//TODO: find nearby alerts using geospatial query
@@ -54,7 +54,7 @@ export async function getAllAlerts(req,res){
     }
 }
 
-export async function createAlert(req,res){
+module.exports.createAlert = async function createAlert(req,res){
     try{
         const newAlert=new Alert(req.body.newAlert);
         newAlert.creatorUserId=req.user._id;

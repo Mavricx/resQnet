@@ -1,20 +1,69 @@
-import dotenv from "dotenv"
-dotenv.config({ path: "../../.env" })
-import connectDB from "../utils/db.js";
-import express from 'express'
-import cors from 'cors';
+//libraries
+require('dotenv').config({ path: "../.env"});
+const passport=require('passport');
+const express = require('express');
+const session = require('express-session');
+const cors=require('cors');
 const app = express()
-// import User from "../models/user.js";
+const GoogleStrategy=require('passport-google-oauth20').Strategy;
+
+//models
+const User =require("../models/user.js");
 // import Alert from "../models/alert.js";
-import userRouter from "../routes/user.js"
-import alertRouter from "../routes/alert.js"
+
+//routes
+const userRouter = require("../routes/user.js");
+const alertRouter = require("../routes/alert.js");
+const authRouter= require("../routes/auth.js");
+
 // import getNearbyUsers from "../utils/queryNearby.js";
 
-let lastLocation = null;;
+//utils
+const connectDB=require('../utils/db.js');
+// const { default: user } = require('../models/user.js');
+let lastLocation = null;
+
+//middlewares
 
 app.use(express.json())
 app.use(cors());
+app.use(session({secret:process.env.SESSION_SECRET,
+    resave:false,
+    saveUninitialized:true}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser((user,done)=>done(null,user));
+passport.deserializeUser((user,done)=>done(null,user));
 
+passport.use(new GoogleStrategy({
+    clientID:process.env.CLIENT_ID,
+    clientSecret:process.env.CLIENT_SECRET,
+    callbackURL:process.env.GOOGLE_REDIRECT_URL
+}, async (accessToken,refreshToken,profile,done)=>{
+    try{
+        let user=await User.findOne({googleId:profile.id});
+        if(!user){
+            user=await User.create(
+                {
+                    googleId:profile.id,
+                    name:profile.displayName,
+                    email:profile.emails[0].value,
+                    profilePic:profile.photos[0].value
+                }
+            );
+            console.log(profile)
+        }
+        return done(null,user);
+    }
+    catch(err){
+        console.error(err,null);
+        return done(err,null);
+    }
+}))
+
+
+
+app.use("/auth", authRouter);
 
 app.get("/help", (_, res) => {
     res.json({ status: "success" })
@@ -43,6 +92,9 @@ app.get("/getNearbyUsers", (req, res) => {
 app.use("/user", userRouter)
 app.use("/alert",alertRouter);
 
+
+
+//start server
 connectDB().then(() => {
     // eslint-disable-next-line no-undef
     const port = process.env.PORT || 3000

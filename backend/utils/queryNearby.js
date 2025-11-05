@@ -1,7 +1,7 @@
 // import dotenv from "dotenv";
 // dotenv.config({ path: "../../.env" });
-import connectDB from "./db.js";
-import User from "../models/user.js";
+const connectDB = require("./db.js");
+const User = require("../models/user.js");
 
 async function getNearbyUsers(lng,lat) {
     await connectDB();
@@ -22,4 +22,4 @@ async function getNearbyUsers(lng,lat) {
 
 // getNearbyUsers().catch(e => { console.error(e); })
 
-export default getNearbyUsers;
+module.exports = getNearbyUsers;

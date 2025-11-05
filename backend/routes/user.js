@@ -1,7 +1,7 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import User from "../models/user.js";
-import wrapAsync from "../utils/wrapAsync.js";
+const User = require("../models/user.js");
+const wrapAsync = require("../utils/wrapAsync.js");
 
 
-export default router;
+module.exports = router;

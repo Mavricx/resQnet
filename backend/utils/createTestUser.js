@@ -1,7 +1,5 @@
-
-import connectDB from './db.js';
-import User from "../models/user.js"
-
+const connectDB = require('./db.js');
+const User = require("../models/user.js");
 
 async function run() {
     await connectDB();

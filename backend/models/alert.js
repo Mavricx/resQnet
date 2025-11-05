@@ -1,5 +1,5 @@
 //schema for alerts
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
@@ -39,4 +39,4 @@ const alertSchema = new Schema({
 
 alertSchema.index({ 'coords': '2dsphere' });
 
-export default mongoose.model("Alert", alertSchema);
+module.exports = mongoose.model("Alert", alertSchema);

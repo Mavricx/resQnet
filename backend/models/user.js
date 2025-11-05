@@ -1,5 +1,5 @@
 //schema for users
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const deviceTokenSchema=new mongoose.Schema({
@@ -9,6 +9,11 @@ const deviceTokenSchema=new mongoose.Schema({
 });
 
 const userSchema = new Schema({
+     googleId:{
+        type:String,
+        unique:true,
+        required:true,
+    },
     email: {
         type: String,
         required: true
@@ -19,36 +24,43 @@ const userSchema = new Schema({
     },
     userType: {
         type: String,
-        enum: ["Normal Citizen", "Police Authority", "System Admin"]
+        enum: ["Normal Citizen", "Police Authority", "System Admin"],
+        default: "Normal Citizen"
     },
     address: {
         country: {
             type: String,
-            required: true
+            required: false
         },
         State: {
             type: String,
-            required: true
+            required: false
         },
         city: {
             type: String,
-            required: true
+            required: false,
         },
         zipcode: {
             type: Number,
-            required: true,
+            required: false,
         },
     },
     phoneNo:{
         type:Number,
-        required:true
+        required:false
+    },
+
+    profilePic:{
+        type:String,
+        unique:true
+
     },
      gender:{
         type:String,
         enum:["Male","Female","Other"],
-        required:true
+        required:false
      },
-    deviceToken:[deviceTokenSchema],
+    //deviceToken:[deviceTokenSchema],
     
     lastLocation:{
         type: {
@@ -67,4 +79,4 @@ userSchema.index({location:"2dsphere"});
 
 
 
-export default mongoose.model("User",userSchema);
+module.exports = mongoose.model("User", userSchema);

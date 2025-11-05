@@ -1,7 +1,7 @@
 //function to connect to the mongodb db.
-import dotenv from "dotenv"
+const dotenv=require( "dotenv");
 dotenv.config({ path: "./.env" })
-import mongoose from 'mongoose';
+const mongoose =require('mongoose');
 const connectDB = async () => {
     // eslint-disable-next-line no-undef
     const dbUrl = process.env.MONGO_STRING
@@ -15,4 +15,4 @@ const connectDB = async () => {
     }
 }
 
-export default connectDB;
+module.exports = connectDB;

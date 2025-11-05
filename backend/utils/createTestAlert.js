@@ -1,5 +1,5 @@
-import connectDB from "./db.js";
-import Alert from "../models/alert.js"
+const connectDB = require("./db.js");
+const Alert = require("../models/alert.js");
 
 async function createTestAlert(){
     await connectDB();
