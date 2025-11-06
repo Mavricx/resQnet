@@ -1,11 +1,13 @@
 //libraries
 require('dotenv').config({ path: "../.env"});
-const passport=require('passport');
+// const passport=require('passport');
 const express = require('express');
-const session = require('express-session');
+// const session = require('express-session');
 const cors=require('cors');
 const app = express()
-const GoogleStrategy=require('passport-google-oauth20').Strategy;
+const admin=require('firebase-admin');
+
+// const GoogleStrategy=require('passport-google-oauth20').Strategy;
 
 //models
 const User =require("../models/user.js");
@@ -26,40 +28,63 @@ let lastLocation = null;
 //middlewares
 
 app.use(express.json())
-app.use(cors());
-app.use(session({secret:process.env.SESSION_SECRET,
-    resave:false,
-    saveUninitialized:true}));
-app.use(passport.initialize());
-app.use(passport.session());
-passport.serializeUser((user,done)=>done(null,user));
-passport.deserializeUser((user,done)=>done(null,user));
+app.use(cors({origin:"http://localhost:5173"}));
+// app.use(session({secret:process.env.SESSION_SECRET,
+    // resave:false,
+    // saveUninitialized:true}));
+// app.use(passport.initialize());
+// app.use(passport.session());
+// passport.serializeUser((user,done)=>done(null,user));
+// passport.deserializeUser((user,done)=>done(null,user));
 
-passport.use(new GoogleStrategy({
-    clientID:process.env.CLIENT_ID,
-    clientSecret:process.env.CLIENT_SECRET,
-    callbackURL:process.env.GOOGLE_REDIRECT_URL
-}, async (accessToken,refreshToken,profile,done)=>{
+// passport.use(new GoogleStrategy({
+//     clientID:process.env.CLIENT_ID,
+//     clientSecret:process.env.CLIENT_SECRET,
+//     callbackURL:process.env.GOOGLE_REDIRECT_URL
+// }, async (accessToken,refreshToken,profile,done)=>{
+//     try{
+//         let user=await User.findOne({googleId:profile.id});
+//         if(!user){
+//             user=await User.create(
+//                 {
+//                     googleId:profile.id,
+//                     name:profile.displayName,
+//                     email:profile.emails[0].value,
+//                     profilePic:profile.photos[0].value
+//                 }
+//             );
+//             console.log(profile)
+//         }
+//         return done(null,user);
+//     }
+//     catch(err){
+//         console.error(err,null);
+//         return done(err,null);
+//     }
+// }))
+
+const serviceAccount=require("../serviceAccountKey.json")
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+
+app.post("/api/verifyUser", async(req,res)=>{
+    const {token}=req.body;
     try{
-        let user=await User.findOne({googleId:profile.id});
-        if(!user){
-            user=await User.create(
-                {
-                    googleId:profile.id,
-                    name:profile.displayName,
-                    email:profile.emails[0].value,
-                    profilePic:profile.photos[0].value
-                }
-            );
-            console.log(profile)
-        }
-        return done(null,user);
+        const decoded=await admin.auth().verifyIdToken(token);
+        console.log("Decoded Token:", decoded);
+        res.json({ success: true, user: decoded });
     }
     catch(err){
-        console.error(err,null);
-        return done(err,null);
+        console.error(err);
+        res.status(401).json({error: "Invalid token"});
     }
-}))
+});
+
+app.post("/api/logout", (req, res) => {
+  res.clearCookie("token");
+  res.json({ success: true, message: "Logged out" });
+});
 
 
 

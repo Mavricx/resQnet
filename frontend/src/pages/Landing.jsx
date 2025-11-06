@@ -1,11 +1,31 @@
 import React from "react";
-import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { motion } from "framer-motion";
 import { ShieldCheck, ArrowRight, PhoneCall, Users, Bell } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { redirectTo } from "../services/redirectTo.js";
+import { auth, provider, signInWithPopup } from "../services/firebaseConfig.js";
+
 function Landing() {
   const navigate = useNavigate();
+
+   const handleLogin = async () => {
+    const result = await signInWithPopup(auth, provider);
+    const token = await result.user.getIdToken();
+
+    const res = await fetch("http://localhost:5050/api/verifyUser", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token }),
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      console.log("Login successful:", data.user);
+      // ✅ Redirect to /home
+      navigate("/home");
+    } else {
+      alert("Login failed!");
+    }
+  };
   return (
     <div className="flex flex-col items-center justify-between h-dvh bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white p-6">
       {/* Top Logo */}
@@ -56,7 +76,7 @@ function Landing() {
       </motion.div>
 <br />
       {/* Buttons */}
-      <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}> 
+     
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -64,7 +84,7 @@ function Landing() {
         className="w-full max-w-md space-y-4 mb-8"
       >
         <div className="w-full max-w-md pb-8">
-          <button className="w-full bg-black hover:bg-blue-600 text-white font-semibold py-4 md:py-5 px-8 rounded-2xl shadow-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-blue-500/50 flex items-center justify-center gap-3 md:gap-4 text-base md:text-lg group" onClick={() => redirectTo(import.meta.env.VITE_BACKEND_URL+"/auth/google")}>
+          <button className="w-full bg-black hover:bg-blue-600 text-white font-semibold py-4 md:py-5 px-8 rounded-2xl shadow-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-blue-500/50 flex items-center justify-center gap-3 md:gap-4 text-base md:text-lg group" onClick={handleLogin}>
             <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="currentColor">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -81,7 +101,6 @@ function Landing() {
           </p>
         </div>
       </motion.div>
-      </GoogleOAuthProvider>
     </div>
   );
 }
