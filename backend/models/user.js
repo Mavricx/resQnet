@@ -9,14 +9,19 @@ const deviceTokenSchema=new mongoose.Schema({
 });
 
 const userSchema = new Schema({
-     googleId:{
+       uid:{
         type:String,
-        unique:true,
-        required:true,
+        required:false,
     },
     email: {
         type: String,
         required: true
+    },
+    username: {
+      type: String,
+      unique: true,
+      sparse: true, // allow multiple docs with no username (null/absent)
+      required: false,
     },
     name: {
         type: String,

@@ -28,7 +28,7 @@ let lastLocation = null;
 //middlewares
 
 app.use(express.json())
-app.use(cors({origin:"http://localhost:5173"}));
+app.use(cors({origin:"http://localhost:5173", credentials:true}));
 // app.use(session({secret:process.env.SESSION_SECRET,
     // resave:false,
     // saveUninitialized:true}));
@@ -72,8 +72,18 @@ app.post("/api/verifyUser", async(req,res)=>{
     const {token}=req.body;
     try{
         const decoded=await admin.auth().verifyIdToken(token);
-        console.log("Decoded Token:", decoded);
-        res.json({ success: true, user: decoded });
+        // console.log("Decoded Token:", decoded);
+        let user=await User.findOne({uid:decoded.uid});
+        if(!user){
+            user=await User.create({
+               uid:decoded.uid,
+               name:decoded.name,
+               email:decoded.email,
+               profilePic:decoded.picture
+           });
+        }
+        console.log("User Logged In:", user)
+        res.json({ success: true, user });
     }
     catch(err){
         console.error(err);
@@ -81,8 +91,9 @@ app.post("/api/verifyUser", async(req,res)=>{
     }
 });
 
-app.post("/api/logout", (req, res) => {
+app.get("/api/logout", (req, res) => {
   res.clearCookie("token");
+  console.log("User logged out");
   res.json({ success: true, message: "Logged out" });
 });
 

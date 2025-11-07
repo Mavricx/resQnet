@@ -11,7 +11,7 @@ function MainContainer() {
 
       {/* Title */}
       <h1 className="text-white text-4xl font-bold mt-20 drop-shadow-lg">
-        Never hesitate to ask for help
+        Help & Be Helped!
       </h1>
 
       {/* Emergency Button */}
