@@ -106,7 +106,7 @@ ResQnet prioritizes user privacy and safe data handling by:
 git clone https://github.com/your-username/resqnet.git
 cd resqnet
 ```
-### **2. Backend Setup
+### 2. Backend Setup
 ```bash
 cd backend
 npm install
