@@ -44,14 +44,14 @@ Anyone within the alert radius can:
 ## 🏛 **Architecture Overview**
 
 ### **Frontend (Mobile App)**
-- **Language:** Java  
-- **Framework:** Android Studio  
+- **Language:** Javascript,   
+- **Framework:** React.js  
 - **Features:**  
   - Location access  
   - Realtime notifications  
   - Emergency report interface  
   - Radius-based filtering  
-  - Map screen (Google Maps API)
+  - MapBox Map API
 
 ### **Backend**
 - **Language:** Node.js  
